@@ -1,18 +1,23 @@
 import React from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
+import { Activity } from "../../../app/models/activity";
 
-export default function ActivityForm(){
+interface Props {
+    activity: Activity | undefined;
+    closeForm: () => void;
+}
+export default function ActivityForm({activity, closeForm}: Props){
     return(
         <Segment clearing>
             <Form>
-                <Form.Input praceholder='Title'/>
-                <Form.TextArea praceholder='Description'/>
-                <Form.Input praceholder='Category'/>
-                <Form.Input praceholder='Date'/>
-                <Form.Input praceholder='City'/>
-                <Form.Input praceholder='Venue'/>
+                <Form.Input placeholder='Title'/>
+                <Form.TextArea placeholder='Description'/>
+                <Form.Input placeholder='Category'/>
+                <Form.Input plraceholder='Date'/>
+                <Form.Input placeholder='City'/>
+                <Form.Input placeholder='Venue'/>
                 <Button floated='right' positive type='submit' content='Submit' />
-                <Button floated='right' type='submit' content='Cancel' />
+                <Button onClick={closeForm} floated='right' type='submit' content='Cancel' />
             </Form>
         </Segment>
     )
