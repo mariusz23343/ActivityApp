@@ -37,6 +37,11 @@ function App() {
     setEditMode(false);
     setSelectedActivity(activity);
   }
+
+  function handleDeleteActivity(id: string){
+    setActivities([...activities.filter(x => x.id !== id)]) // lecimy po wszystkich i zostawiamy tylko te co nie maja id podanego
+  }
+
   return (
     <Fragment>
       <NavBar openForm={handleFormOpen} />
@@ -50,6 +55,7 @@ function App() {
         openForm={handleFormOpen}
         closeForm={handleFormClose}
         createOrEdit = {handleCreateOrEditActivity}
+        deleteActivity={handleDeleteActivity}
         />
       </Container>
        
