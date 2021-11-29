@@ -4,6 +4,7 @@ import { Container} from 'semantic-ui-react'
 import { Activity } from '../models/activity';
 import NavBar from './NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
+import {v4 as uuid} from 'uuid';
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -29,6 +30,13 @@ function App() {
   function handleFormClose(){
     setEditMode(false);
   }
+  function handleCreateOrEditActivity(activity: Activity){
+    activity.id //patrzymy czy mamy id
+    ? setActivities([...activities.filter(x =>x.id !== activity.id), activity]) //jesli tak to filtrujemy po obecnych aktywnościach, i na aktywnosci o id danym aktualizujemy plus dodajemy poprzednie
+    : setActivities([...activities, {...activity, id: uuid()}]); //jesli nie mamy takiej aktywnosci to dodajemy i dodajemy poprzednie 
+    setEditMode(false);
+    setSelectedActivity(activity);
+  }
   return (
     <Fragment>
       <NavBar openForm={handleFormOpen} />
@@ -41,6 +49,7 @@ function App() {
         editMode={editMode}
         openForm={handleFormOpen}
         closeForm={handleFormClose}
+        createOrEdit = {handleCreateOrEditActivity}
         />
       </Container>
        
