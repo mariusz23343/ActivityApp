@@ -1,15 +1,17 @@
 import { observer } from "mobx-react-lite";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { Button, Form, Segment } from "semantic-ui-react";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useStore } from "../../../app/stores/store";
 
 
 export default observer( function ActivityForm(){
 
     const {activityStore} = useStore();
-    const {selectedActivity, createActivity, updateActivity, loading} = activityStore;
-    
-    const initialState = selectedActivity ??{
+    const {createActivity, updateActivity, loading, loadActivity, loadingInitial} = activityStore;
+    const {id} = useParams<{id: string}>();
+    const [activity, setActivity] = useState({
         id: '',
         title: '',
         category: '',
@@ -17,9 +19,12 @@ export default observer( function ActivityForm(){
         date: '',
         city: '',
         venue: '',
-    }
-    const [activity, setActivity] = useState(initialState);
-
+    });
+    
+    useEffect(() => {
+        if(id) loadActivity(id).then(activity => setActivity(activity!))
+    }, [id, loadActivity])
+    
     function handleSubmit(){
         activity.id ? updateActivity(activity) : createActivity(activity);
     }
@@ -28,6 +33,8 @@ export default observer( function ActivityForm(){
         const {name, value} = event.target; //to wskazuje ze sledzimy te dwa elementy
         setActivity({...activity, [name]: value}); //trzy kropki ze zostawiamy istniejące, zmieniamy te co sie zienily name na value ktore im odpowiada
     }
+
+    if(loadingInitial) return <LoadingComponent content='Loading Activities...' />
 
     return(
         <Segment clearing>
