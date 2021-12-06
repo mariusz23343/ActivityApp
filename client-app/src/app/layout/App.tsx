@@ -14,14 +14,20 @@ function App() {
 
   return (
     <>
-      <NavBar />
-      <Container style={{marginTop: '4.5em'}}>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/activities" component={ActivityDashboard} />
-        <Route path="/activities/:id" component={ActivityDetails} />
-        <Route key={location.key} path={["/createActivity", '/manage/:id']} component={ActivityForm} />
-      </Container>
-       
+      <Route exact path="/" component={HomePage} />
+      <Route 
+        path={'/(.+)'} //cokolwiek bedzie dodane po / ma byc renderowane tutaj
+        render={() => (
+          <>
+             <NavBar />
+            <Container style={{marginTop: '4.5em'}}>
+              <Route exact path="/activities" component={ActivityDashboard} />
+              <Route path="/activities/:id" component={ActivityDetails} />
+              <Route key={location.key} path={["/createActivity", '/manage/:id']} component={ActivityForm} />
+            </Container>
+          </>
+        )}
+      />
     </>
   );
 }

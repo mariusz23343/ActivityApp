@@ -9,11 +9,12 @@ import ActivityList from "./ActivityList";
 export default observer( function ActivityDashboard(){
     
     const {activityStore} = useStore();
+    const {loadActivities, activityRegistry} = activityStore;
 
 
   useEffect(() => {
-    activityStore.loadActivities();
-  }, [activityStore]);
+   if(activityRegistry.size <=1 ) activityStore.loadActivities();
+  }, [activityRegistry.size, loadActivities, activityStore]);
 
 
 
