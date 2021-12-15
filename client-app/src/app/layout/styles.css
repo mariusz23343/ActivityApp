@@ -15,6 +15,10 @@
   box-shadow: rgb(50 54 56 / 15%) 0px 1px 2px 0px;
 }
 
+.react-datepicker-wrapper {
+  width:100%;
+}
+
 .masthead {
   display: flex;
   align-items: center;
