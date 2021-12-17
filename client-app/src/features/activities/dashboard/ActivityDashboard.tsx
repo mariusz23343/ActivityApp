@@ -19,7 +19,7 @@ export default observer( function ActivityDashboard(){
 
 
 
-  if(activityStore.loadingInitial) return <LoadingComponent content='Loading app'/>
+  if(activityStore.loadingInitial) return <LoadingComponent content='Loading Avtivities ...'/>
         return (
             <Grid>
                 <Grid.Column width='10'>

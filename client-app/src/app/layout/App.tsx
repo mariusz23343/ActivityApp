@@ -1,4 +1,4 @@
-import React from 'react';  
+import React, { useEffect } from 'react';  
 import { Container } from 'semantic-ui-react'
 import NavBar from './NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
@@ -12,10 +12,24 @@ import { ToastContainer } from 'react-toastify';
 import NotFound from '../../features/activities/Errors/notFound';
 import ServerError from '../../features/activities/Errors/ServerError';
 import LoginForm from '../../features/activities/users/LoginForm';
+import { useStore } from '../stores/store';
+import LoadingComponent from './LoadingComponent';
 
 function App() {
 
   const location = useLocation();
+  const {commonStore, userStore} = useStore();
+
+  useEffect(() =>{
+    if(commonStore.token){
+      userStore.getUser().finally(() => commonStore.setAppLoaded())
+    } else {
+      commonStore.setAppLoaded()
+    }
+  }, [commonStore, userStore])
+
+
+  if(!commonStore.appLoaded) return <LoadingComponent content='Loading app...'/>
 
   return (
     <>
