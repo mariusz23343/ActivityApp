@@ -14,6 +14,7 @@ import ServerError from '../../features/activities/Errors/ServerError';
 import LoginForm from '../../features/activities/users/LoginForm';
 import { useStore } from '../stores/store';
 import LoadingComponent from './LoadingComponent';
+import ModalContainer from '../common/form/modals/ModalContainer';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
   return (
     <>
     <ToastContainer position="bottom-right" hideProgressBar />
+      <ModalContainer />
       <Route exact path="/" component={HomePage} />
       <Route 
         path={'/(.+)'} //cokolwiek bedzie dodane po / ma byc renderowane tutaj
