@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [AllowAnonymous]
     public class ActivitiesController : BaseApiController
     {
 
@@ -38,6 +37,11 @@ namespace API.Controllers
         public async Task <IActionResult> DeleteActivity(Guid id)
         {
             return HandleResult(await mediator.Send(new Delete.Command { Id = id}));
+        }
+        [HttpPost("{id}/attend")]
+        public async Task<IActionResult> Attend(Guid id)
+        {
+            return HandleResult(await mediator.Send(new UpdateAttendance.Command { Id = id }));
         }
     }
 }

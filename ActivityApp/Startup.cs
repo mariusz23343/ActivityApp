@@ -1,7 +1,9 @@
 using API.Extensions;
 using API.Middleware;
 using Application.Activities;
+using Application.Interfaces;
 using FluentValidation.AspNetCore;
+using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +38,7 @@ namespace ActivityApp
             });
             services.AddApplicationServices(_config);
             services.AddIdentityServices(_config);
+            services.AddScoped<IUserAccessor, UserAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.b
