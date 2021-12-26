@@ -5,7 +5,6 @@ import { Activity, ActivityFormValues } from './../models/activity';
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from 'react-toastify';
 import { User } from '../models/user';
-import { request } from 'http';
 
 
 const sleep = (delay: number) => {
