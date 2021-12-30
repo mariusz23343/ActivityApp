@@ -1,5 +1,6 @@
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using Application.Activities;
 using Application.Interfaces;
 using FluentValidation.AspNetCore;
@@ -64,6 +65,7 @@ namespace ActivityApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }
