@@ -4,6 +4,8 @@ import {makeAutoObservable, runInAction} from "mobx";
 import agent from "../api/agent";
 import { store } from './store';
 import { Profile } from '../models/profile';
+import { Pagination } from '../models/pagination';
+
 
 export default class ActivityStore{
     activityRegistry= new Map<string, Activity>();
@@ -11,6 +13,7 @@ export default class ActivityStore{
     editMode = false;
     loading = false;
     loadingInitial = false;
+    pagination: Pagination | null = null;
     
 
     constructor(){
@@ -32,23 +35,26 @@ export default class ActivityStore{
         )
     }
 
-    loadActivities = async () => {  // strzalkowa funkcja bo takiej nie trzeba bindowac do klasy
+    loadActivities = async () => {
+        console.log("dupa store 1")
         this.loadingInitial = true;
-        try{
-            const activities = await agent.Activities.list();
-           
-                activities.forEach(activity => {
-                  this.setActivity(activity);
-                });          
-              
+        try {
+            const result = await agent.Activities.list();
+            result.data.forEach(activity => {
+                this.setActivity(activity);
+                console.log("dupa store")
+            })
+            this.setPagination(result.pagination);
             this.setLoadingInitial(false);
-        }catch(error){
-          console.log(error);
-         
-          this.setLoadingInitial(false);
-          
+        } catch (error) {
+            console.log(error);
+            this.setLoadingInitial(false);
         }
+        console.log("dupa store3 ")
+    }
 
+    setPagination = (pagination: Pagination) => {
+        this.pagination = pagination;
     }
 
     loadActivity = async (id: string) => {
