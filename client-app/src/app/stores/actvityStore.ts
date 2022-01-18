@@ -1,3 +1,4 @@
+import { PagingParams } from './../models/pagination';
 import { format } from 'date-fns';
 import { Activity, ActivityFormValues } from './../models/activity';
 import {makeAutoObservable, runInAction} from "mobx";
@@ -14,10 +15,22 @@ export default class ActivityStore{
     loading = false;
     loadingInitial = false;
     pagination: Pagination | null = null;
+    pagingParams = new PagingParams();
     
 
     constructor(){
         makeAutoObservable(this)
+    }
+
+    setPagingParams = (pagingParams: PagingParams) => {
+        this.pagingParams = pagingParams;
+    } 
+
+    get axiosParams() {
+        const params = new URLSearchParams();
+        params.append('pageNumber', this.pagingParams.pageNumber.toString());
+        params.append('pageSize', this.pagingParams.pageSize.toString());
+        return params;
     }
 
     get activitiesByDate(){
@@ -36,13 +49,11 @@ export default class ActivityStore{
     }
 
     loadActivities = async () => {
-        console.log("dupa store 1")
         this.loadingInitial = true;
         try {
-            const result = await agent.Activities.list();
+            const result = await agent.Activities.list(this.axiosParams);
             result.data.forEach(activity => {
                 this.setActivity(activity);
-                console.log("dupa store")
             })
             this.setPagination(result.pagination);
             this.setLoadingInitial(false);
@@ -50,7 +61,6 @@ export default class ActivityStore{
             console.log(error);
             this.setLoadingInitial(false);
         }
-        console.log("dupa store3 ")
     }
 
     setPagination = (pagination: Pagination) => {
