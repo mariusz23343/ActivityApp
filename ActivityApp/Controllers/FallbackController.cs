@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
+    [AllowAnonymous]
     public class FallbackController : Controller
     {
-        [AllowAnonymous]
         public IActionResult Index()
         {
             return PhysicalFile(Path.Combine(Directory.GetCurrentDirectory(),
