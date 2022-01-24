@@ -46,6 +46,8 @@ namespace API.Controllers
             }
 
             return Unauthorized();
+
+
         }
 
         [HttpPost("register")]
